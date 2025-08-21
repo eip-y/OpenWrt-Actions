@@ -21,8 +21,8 @@ on:
     - cron: '0 4 1 * *'
 
 env:
-  REPO_URL: https://github.com/immortalwrt/immortalwrt.git
-  REPO_BRANCH: openwrt-24.10
+  REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6.git
+  REPO_BRANCH: 2410
   CACHE_REPO: QiYueYiya/openwrt-packages
   UPLOAD_FIRMWARE: false
   UPLOAD_RELEASE: true
@@ -135,7 +135,7 @@ jobs:
         mv $openwrt_root/bin/packages/*/* packages
         tar -czf packages.tar.gz packages
         rm -rf packages
-        mv *sysupgrade.itb ${{ github.workflow }}-$FIRMWARE_VERSION-squashfs-sysupgrade.itb
+        mv *sysupgrade.bin ${{ github.workflow }}-$FIRMWARE_VERSION-squashfs-sysupgrade.bin || mv *sysupgrade.itb ${{ github.workflow }}-$FIRMWARE_VERSION-squashfs-sysupgrade.itb
         rm -rf version.buildinfo
         rm -rf profiles.json
         rm -rf feeds.buildinfo
@@ -187,7 +187,7 @@ jobs:
       with:
         name: 固件保留目录
         tag_name: history
-        files: ${{ env.FIRMWARE }}/*sysupgrade.itb
+        files: ${{ env.FIRMWARE }}/*sysupgrade*
 
     - name: 将固件上传到release
       uses: softprops/action-gh-release@v2
